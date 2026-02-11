@@ -2,7 +2,7 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [main, docs]
   pull_request:
     branches: [main]
 
@@ -20,22 +20,20 @@ jobs:
           docker build -t fastapi-demo:latest .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        continue-on-error: true
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'fastapi-demo:latest'
           format: 'table'
 
       - name: Login to Docker Hub
-        if: github.event_name == 'push'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push to Docker Hub
-        if: github.event_name == 'push'
         run: |
+          cd docker
           docker tag fastapi-demo:latest husansafarov/fastapi-demo:latest
           docker tag fastapi-demo:latest husansafarov/fastapi-demo:${{ github.sha }}
           docker push husansafarov/fastapi-demo:latest
