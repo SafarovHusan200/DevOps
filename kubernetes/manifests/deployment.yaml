@@ -17,20 +17,20 @@ spec:
         version: v1.0.0
     spec:
       containers:
-      - name: fastapi-container
-        image: dor28/fastapi-demo:latest
-        ports:
-        - containerPort: 8000
-          name: http
-          protocol: TCP
-        env:
-        - name: ENVIRONMENT
-          value: "kubernetes"
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "50m"
-          limits:
-            memory: "128Mi"
-            cpu: "100m"
+        - name: fastapi-container
+          image: husansafarov/fastapi-demo:latest
+          ports:
+            - containerPort: 8000
+              name: http
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: 'kubernetes'
+          resources:
+            requests:
+              memory: '64Mi'
+              cpu: '50m'
+            limits:
+              memory: '128Mi'
+              cpu: '100m'
       restartPolicy: Always
